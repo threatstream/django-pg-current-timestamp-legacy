@@ -1,5 +1,7 @@
 # Django Postgres Current Timestamp
 
+[![Build Status](https://travis-ci.org/threatstream/django-pg-current-timestamp.svg?branch=master)](https://travis-ci.org/threatstream/django-pg-current-timestamp)
+
 Add true postgresql `CURRENT_TIMESTAMP` support to Django + PostgreSQL.
 
 Also includes automatic support for usage in `auto_now` and `auto_now_add` [DateTimeField](https://docs.djangoproject.com/en/dev/ref/models/fields/#datetimefield) columns in models.

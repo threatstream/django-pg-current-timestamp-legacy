@@ -1,2 +1,7 @@
 language: python
 python: 2.7
+addons:
+    postgresql: '9.3'
+before_script:
+    - psql -c 'CREATE DATABASE django_pg_current_timestamp' -U postgres
+script: python runtests.py
