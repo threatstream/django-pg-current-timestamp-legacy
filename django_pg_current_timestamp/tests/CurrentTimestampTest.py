@@ -4,11 +4,12 @@ from django.test import TestCase
 from django.utils import timezone
 
 from django_pg_current_timestamp.test_app.models import TestModel
-from django_pg_current_timestamp import CurrentTimestamp
+import django_pg_current_timestamp
 
 
 class CurrentTimestampTest(TestCase):
-    initiated = False
+    def setUp(self):
+        django_pg_current_timestamp.init()
 
     def testCurrentTimestamp(self):
         a = TestModel.objects.create(value='altavista.com')
