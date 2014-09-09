@@ -14,7 +14,7 @@ class CurrentTimestampTest(TestCase):
         a = TestModel.objects.create(value='altavista.com')
         b = TestModel.objects.get(id=a.id)
 
-        # These shouldn't match, because the TS returned with the initial object is app-generated, whereas the queried object `b` should have the databases `CURRENT_TIMESTAMP` value.
+        # These shouldn't match, because the TS returned with the initial object is app-generated, whereas the queried object `b` should have the database's `CURRENT_TIMESTAMP` value.
         self.assertNotEqual(a.created_ts, b.created_ts)
         self.assertNotEqual(a.modified_ts, b.modified_ts)
 
