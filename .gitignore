@@ -1,0 +1,9 @@
+*.pyc
+*.sw[poa]
+.DS_Store
+Thumbs.db
+venv/*
+site-packages/*
+build/*
+dist/*
+django_pg_current_timestamp.egg-info/*
