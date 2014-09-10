@@ -3,11 +3,12 @@
 from django.test import TestCase
 from django.utils import timezone
 
-from django_pg_current_timestamp.test_app.models import TestModel
+from django_pg_current_timestamp.django_pg_current_timestamp_test_app.models import TestModel
 import django_pg_current_timestamp
 
 
 class CurrentTimestampTest(TestCase):
+
     def setUp(self):
         django_pg_current_timestamp.init()
 

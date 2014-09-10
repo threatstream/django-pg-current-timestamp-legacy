@@ -2,7 +2,9 @@
 
 import unittest
 import logging
+import re
 
+import django
 from django.conf import settings
 try:
     from django.utils.functional import empty
@@ -19,8 +21,7 @@ def setup_test_environment():
 
     apps = [
         'django_pg_current_timestamp',
-        'django_pg_current_timestamp.tests',
-        'django_pg_current_timestamp.test_app',
+        'django_pg_current_timestamp.django_pg_current_timestamp_test_app',
     ]
 
     settings_dict = {
@@ -52,7 +53,8 @@ class TestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls, *args, **kwargs):
         if not TestCase.initiated:
-            TestCase.create_models_from_app('django_pg_current_timestamp.test_app')
+            setup_test_environment()
+            TestCase.create_models_from_app('django_pg_current_timestamp.django_pg_current_timestamp_test_app')
             TestCase.initiated = True
         super(TestCase, cls).setUpClass(*args, **kwargs)
 
@@ -63,10 +65,17 @@ class TestCase(unittest.TestCase):
         Models are loaded from the module '<app_name>.models'
         """
         from django.db import connection, DatabaseError
-        from django.db.models.loading import load_app
         from django.test.simple import DjangoTestSuiteRunner
 
-        app = load_app(app_name)
+        # NB: `load_app` is deprecated as of Django 1.7.
+        if re.match(r'''^1\.7.*$''', django.get_version()) is not None:
+            from django.apps import apps
+            # NB: Django 1.7 doesn't work with the fully-qualified app name.
+            app = apps.get_app_config(app_name.split('.')[1])
+        else:
+            from django.db.models.loading import load_app
+            app = load_app(app_name)
+
         from django.core.management import sql
         from django.core.management.color import no_style
         sql = sql.sql_create(app, no_style(), connection)
@@ -84,7 +93,6 @@ class TestCase(unittest.TestCase):
 
 
 def runtests():
-    setup_test_environment()
     unittest.main()
 
 
