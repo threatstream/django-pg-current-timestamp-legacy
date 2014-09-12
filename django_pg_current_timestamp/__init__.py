@@ -9,17 +9,20 @@ from django.utils import timezone
 from psycopg2.extensions import ISQLQuote
 
 
-__version__ = '0.2.1'
+__version__ = '0.2.3'
 __author__ = 'Jay Taylor [@jtaylor]'
 
 
 logger = logging.getLogger(__name__)
 
 
+_current_timestamp_sql = 'CURRENT_TIMESTAMP'
+
+
 class CurrentTimestamp(object):
 
     def __str__(self):
-        return 'CURRENT_TIMESTAMP'
+        return _current_timestamp_sql
 
     def as_sql(self, qn, val):
         return self.__str__(), {}
