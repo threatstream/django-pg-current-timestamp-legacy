@@ -47,7 +47,7 @@ aspects of the database.
 ### 3. Activate automatic support for DateTimeField `auto_now=True` and
 `auto_now_add=True` columns by running the package's `init()` method in settings.py.
 
-#### settings.py:
+#### settings.py (add to very end, see "caveats" below for details):
 
     import django_pg_current_timestamp
     django_pg_current_timestamp.init()
@@ -88,10 +88,18 @@ Then simply execute the test runner:
 
 ## Caveat Emptor
 
-Presently there several edge cases to be aware of.  The timestamp returned after
-saving a `DateTimeField` model attribute of the `auto_now/auto_now_add` variety,
-or a field set to `CurrentTimestamp()` will not be the real value from the
-database.  It will be a timestamp generated using Django's `timezone.now()`.  To
-get the real timestamp it is necessary to retrieve the object fresh from the
-database.
+Presently there several edge cases to be aware of.
 
+### Fake-ish timestamps because we don't know the actual value for db `CURRENT_TIMESTAMP`
+
+The timestamp returned after saving a `DateTimeField` model attribute of the
+`auto_now/auto_now_add` variety, or a field set to `CurrentTimestamp()` will
+not be the real value from the database.  It will be a timestamp generated
+using Django's `timezone.now()`.  To get the real timestamp it is necessary
+to retrieve the object fresh from the database.
+
+### `django_pg_current_timestamp.init()`
+
+Keep django_pg_current_timestamp initialization at the end of settings.py to
+avoid side-effects which can cause oddities in django behavior.  This is due
+to the monkey patching we do on django.
