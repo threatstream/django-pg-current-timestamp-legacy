@@ -1,15 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
+import os, re
 from distutils.core import setup
 from setuptools import find_packages
 
-import django_pg_current_timestamp
-
 setup(
     name='django-pg-current-timestamp',
-    version=django_pg_current_timestamp.__version__,
+    version='0.2.4',
     author='Jay Taylor',
     author_email='jay@jaytaylor.com',
     packages=find_packages(),
@@ -18,7 +16,8 @@ setup(
     license=open(os.path.join(os.path.dirname(__file__), 'LICENSE'), 'r').read(),
     description='Add true postgresql `CURRENT_TIMESTAMP` support to Django + PostgreSQL',
     long_description='Documentation is available on github: https://github.com/threatstream/django-pg-current-timestamp',
-    install_requires=open(os.path.join(os.path.dirname(__file__), 'requirements.txt'), 'r').read().strip().split('\n'),
+    requires=map(lambda s: re.sub(r'([<>!=].*)$', r'(\1)', s), open(os.path.join(os.path.dirname(__file__), 'requirements.txt'), 'r').read().strip().split('\n')),
+    install_requires=map(lambda s: re.sub(r'([<>!=,]+)', r' \1 ', s).strip(), open(os.path.join(os.path.dirname(__file__), 'requirements.txt'), 'r').read().strip().split('\n')),
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Environment :: Console',

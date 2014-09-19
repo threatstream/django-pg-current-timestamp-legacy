@@ -4,12 +4,10 @@
 
 import logging
 
-from django.utils import timezone
-
 from psycopg2.extensions import ISQLQuote
 
 
-__version__ = '0.2.3'
+__version__ = '0.2.4'
 __author__ = 'Jay Taylor [@jtaylor]'
 
 
@@ -51,6 +49,7 @@ class CurrentTimestamp(object):
             Pre-save `CURRENT_TIMESTAMP` injector.
             NB: The returned value is what will go into the database, and the `timezone.now()` value will be set on the model instance.
             """
+            from django.utils import timezone # Import here to avoid `pip install ..` issues.
             if self.auto_now or (self.auto_now_add and add):
                 value = CurrentTimestamp()
                 setattr(model_instance, self.attname, timezone.now()) # Attach an approximate TS to the object.
