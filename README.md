@@ -86,6 +86,12 @@ Then simply execute the test runner:
 
     python runtests.py
 
+
+## Publishing instructions
+
+    rm -rf build dist *.egg-info && ./setup.py clean && ./setup.py build && ./setup.py sdist && twine upload dist/*
+
+
 ## Caveat Emptor
 
 Presently there several edge cases to be aware of.
@@ -103,3 +109,4 @@ to retrieve the object fresh from the database.
 Keep django_pg_current_timestamp initialization at the end of settings.py to
 avoid side-effects which can cause oddities in django behavior.  This is due
 to the monkey patching we do on django.
+
